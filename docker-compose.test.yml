@@ -1,0 +1,30 @@
+services:
+  courier-management-test-db:
+    image: postgres:latest
+    container_name: courier-management-test-db
+    environment:
+      POSTGRES_DB: courier-management-test-db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      PG_DATA: /data/postgres
+    networks:
+      - idelivery-test-network
+    ports:
+      - "5432:5432"
+
+  delivery-tracking-test-db:
+    image: postgres:latest
+    container_name: delivery-tracking-test-db
+    environment:
+      POSTGRES_DB: delivery-tracking-test-db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      PG_DATA: /data/postgres
+    networks:
+      - idelivery-test-network
+    ports:
+      - "5433:5432"
+
+networks:
+  idelivery-test-network:
+    driver: bridge
