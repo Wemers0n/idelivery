@@ -7,7 +7,7 @@ public enum EDeliveryStatus {
     DRAFT,
     WAITING_FOR_COURIER(DRAFT),
     IN_TRANSIT(WAITING_FOR_COURIER),
-    DELIVERY(IN_TRANSIT);
+    DELIVERED(IN_TRANSIT);
 
     private final List<EDeliveryStatus> previousStatuses;
 
