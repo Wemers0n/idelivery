@@ -16,9 +16,11 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
+import com.example.delivery.tracking.application.model.CourierIdInput;
 import com.example.delivery.tracking.application.model.DeliveryInput;
 import com.example.delivery.tracking.domain.model.Delivery;
 import com.example.delivery.tracking.domain.repository.DeliveryRepository;
+import com.example.delivery.tracking.domain.service.DeliveryCheckpointService;
 import com.example.delivery.tracking.domain.service.DeliveryPreparationService;
 
 import jakarta.validation.Valid;
@@ -30,6 +32,7 @@ import lombok.RequiredArgsConstructor;
 public class DeliveryController {
 
     private final DeliveryPreparationService deliveryPreparationService;
+    private final DeliveryCheckpointService checkpointService;
     private final DeliveryRepository deliveryRepository;
 
     @PostMapping
@@ -52,5 +55,20 @@ public class DeliveryController {
     public Delivery findById(@PathVariable UUID deliveryId){
         return deliveryRepository.findById(deliveryId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+    }
+
+    @PostMapping("/{deliveryId}/placement")
+    public void place(@PathVariable UUID deliveryId){
+        checkpointService.place(deliveryId);
+    }
+
+    @PostMapping("/{deliveryId}/pickUp")
+    public void pickUp(@PathVariable UUID deliveryId, @Valid @RequestBody CourierIdInput input){
+        checkpointService.pickUp(deliveryId, input.getCourierId());
+    }
+
+    @PostMapping("/{deliveryId}/completion")
+    public void completion(@PathVariable UUID deliveryId){
+        checkpointService.completion(deliveryId);
     }
 }
