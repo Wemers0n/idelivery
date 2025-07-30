@@ -5,7 +5,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class CourierCalculationInput {
+public class CourierPayoutCalculationInput {
 
     private Double distanceInKm;
 }

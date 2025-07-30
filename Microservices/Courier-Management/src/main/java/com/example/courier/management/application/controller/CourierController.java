@@ -17,8 +17,8 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
-import com.example.courier.management.application.model.CourierCalculationInput;
 import com.example.courier.management.application.model.CourierInput;
+import com.example.courier.management.application.model.CourierPayoutCalculationInput;
 import com.example.courier.management.application.model.CourierPayoutResultModel;
 import com.example.courier.management.domain.model.Courier;
 import com.example.courier.management.domain.repository.CourierRepository;
@@ -59,7 +59,7 @@ public class CourierController {
     }
 
     @PostMapping("/payout-calculation")
-    public CourierPayoutResultModel calculate(@RequestBody CourierCalculationInput input){
+    public CourierPayoutResultModel calculate(@RequestBody CourierPayoutCalculationInput input){
 
         BigDecimal payoutFee = courierPayoutService.calculate(input.getDistanceInKm());
         return new CourierPayoutResultModel(payoutFee);
