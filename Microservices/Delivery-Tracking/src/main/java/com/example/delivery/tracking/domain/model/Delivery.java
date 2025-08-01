@@ -8,6 +8,11 @@ import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
+import org.springframework.data.domain.AbstractAggregateRoot;
+
+import com.example.delivery.tracking.domain.event.DeliveryFulFilledEvent;
+import com.example.delivery.tracking.domain.event.DeliveryPickUpEvent;
+import com.example.delivery.tracking.domain.event.DeliveryPlacedEvent;
 import com.example.delivery.tracking.domain.exception.DomainException;
 
 import jakarta.persistence.AttributeOverride;
@@ -28,10 +33,10 @@ import lombok.Setter;
 
 @Entity
 @NoArgsConstructor(access = AccessLevel.PACKAGE)
-@EqualsAndHashCode(onlyExplicitlyIncluded = true)
+@EqualsAndHashCode(onlyExplicitlyIncluded = true, callSuper = false)
 @Setter(AccessLevel.PRIVATE)
 @Getter
-public class Delivery {
+public class Delivery extends AbstractAggregateRoot<Delivery>{
 
     @Id
     @EqualsAndHashCode.Include
@@ -120,17 +125,20 @@ public class Delivery {
         verifyIfCanBePlaced();
         this.changeStatusTo(EDeliveryStatus.WAITING_FOR_COURIER);
         this.setPlacedAt(OffsetDateTime.now());
+        super.registerEvent(new DeliveryPlacedEvent(this.getPlacedAt(), this.getId())); // Registra um evento
     }
 
     public void pickUp(UUID courierId){
         this.setCourierId(courierId);
         this.changeStatusTo(EDeliveryStatus.IN_TRANSIT);
         this.setAssingnedAt(OffsetDateTime.now());
+        super.registerEvent(new DeliveryPickUpEvent(this.getAssingnedAt(), this.getId()));
     }
 
     public void markAsDelived(){ // Estado final do pedido
         this.changeStatusTo(EDeliveryStatus.DELIVERED);
         this.setFulfilledAt(OffsetDateTime.now());
+        super.registerEvent(new DeliveryFulFilledEvent(this.getFulfilledAt(), this.getId()));
     }
 
     public void changeItemQuantity(UUID itemId, int quantity){
