@@ -53,4 +53,21 @@ public class CourierControllerTest {
                 .body("name", Matchers.equalTo("João da Silva"));
     }
 
+    @Test
+    void shouldReturn200(){
+        UUID courierId = courierRepository.saveAndFlush(
+                    Courier.brandNew("Maria Sousa", "11912341234")).getId();
+
+        RestAssured
+            .given()
+                .pathParam("courierId", courierId)
+                .accept(ContentType.JSON)
+            .when()
+                .get("/{courierId}")
+            .then()
+                .statusCode(HttpStatus.OK.value())
+                .body("id", Matchers.equalTo(courierId.toString()))
+                .body("name", Matchers.equalTo("Maria Sousa"))
+                .body("phone", Matchers.equalTo("11912341234"));
+    }
 }
