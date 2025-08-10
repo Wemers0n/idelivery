@@ -25,3 +25,9 @@ spring:
       bootstrap-servers: localhost:9092
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
       value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+      properties:
+        spring.json.type.mapping:
+          delivery-placement-event: com.example.delivery.tracking.domain.event.DeliveryPlacedEvent,
+          delivery-picked-up-event: com.example.delivery.tracking.domain.event.DeliveryPickUpEvent,
+          delivery-fulfilled-event: com.example.delivery.tracking.domain.event.DeliveryFulFilledEvent
+
