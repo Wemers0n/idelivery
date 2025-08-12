@@ -29,3 +29,7 @@ spring:
       properties:
         spring.deserializer.value.delegate.class: org.springframework.kafka.support.serializer.JsonDeserializer
         spring.json.trusted.packages: '*'
+        spring.json.type.mapping:
+          delivery-placement-event:com.example.courier.management.infraestructure.event.DeliveryPlacedIntegrationEvent,
+          delivery-picked-up-event:com.fasterxml.jackson.databind.JsonNode,
+          delivery-fulfilled-event:com.example.courier.management.infraestructure.event.DeliveryFulFilledIntegrationEvent
