@@ -19,7 +19,7 @@ public class CourierDeliveryService {
 
     private final CourierRepository courierRepository;
 
-    public void assing(UUID deliveryId){
+    public void assign(UUID deliveryId){
         Courier courier = courierRepository.findTop1ByOrderByLastFulfilledDeliveryAtAsc()
             .orElseThrow();
 
