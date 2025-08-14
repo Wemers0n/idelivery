@@ -1,0 +1,4 @@
+# spring.application.name=iDelivery-Service-Registry
+spring:
+    application:
+        name: iDelivery-Service-Registry
