@@ -1,4 +1,13 @@
 # spring.application.name=iDelivery-Service-Registry
+
+server:
+  port: 8761
+
 spring:
     application:
         name: iDelivery-Service-Registry
+
+eureka:
+  client:
+    register-with-eureka: false
+    fetch-registry: false
