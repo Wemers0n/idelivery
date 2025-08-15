@@ -1,0 +1,7 @@
+# spring.application.name=iDelivery-Gateway
+
+server.port: 9999
+
+spring:
+    application:
+        name: iDelivery-Gateway
