@@ -1,5 +1,6 @@
 package com.example.delivery.tracking.infraestructure.config;
 
+import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.client.RestClient;
@@ -12,8 +13,14 @@ import com.example.delivery.tracking.infraestructure.http.client.CourierAPIClien
 public class CourierAPIClientConfig {
 
     @Bean
+    @LoadBalanced
+    public RestClient.Builder loadBalancendRestClientBuilder(){
+        return RestClient.builder();
+    }
+
+    @Bean
     public CourierAPIClient courierAPIClient(RestClient.Builder builder){
-        RestClient restClient = builder.baseUrl("http://localhost:8090").build();
+        RestClient restClient = builder.baseUrl("http://courier-management").build();
 
         RestClientAdapter adapter = RestClientAdapter.create(restClient);
 
