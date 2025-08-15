@@ -3,5 +3,23 @@
 server.port: 9999
 
 spring:
-    application:
-        name: iDelivery-Gateway
+  application:
+    name: iDelivery-Gateway
+
+  cloud:
+    gateway:
+      server:
+        webflux:
+          routes:
+            # Route for Delivery Tracking
+            - id: delivery-tracking-route
+              uri: http://localhost:8080
+              predicates:
+                - Path=/api/v1/deliveries/**
+                - Method=GET,POST,PUT,DELETE,OPTION
+
+            # Route for Courier Management
+            - id: courier-management-route
+              uri: http://localhost:8090
+              predicates:
+                - Path=/api/v1/couriers/**
