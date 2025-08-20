@@ -10,6 +10,7 @@ import com.example.delivery.tracking.domain.service.CourierPayoutCalculationServ
 import com.example.delivery.tracking.infraestructure.http.exception.BadGatewayException;
 import com.example.delivery.tracking.infraestructure.http.exception.GatewayTimoutException;
 
+import io.github.resilience4j.circuitbreaker.CallNotPermittedException;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -25,7 +26,7 @@ public class CourierPayoutCalculationServiceHttpImpl implements CourierPayoutCal
             return payoutCalculation.getPayoutFee();
         } catch(ResourceAccessException e) {
             throw new GatewayTimoutException(e);
-        } catch (HttpServerErrorException | IllegalArgumentException e){
+        } catch (HttpServerErrorException | CallNotPermittedException | IllegalArgumentException e){
             throw new BadGatewayException(e);
         }    
     }
