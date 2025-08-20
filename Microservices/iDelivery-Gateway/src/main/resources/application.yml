@@ -32,6 +32,13 @@ spring:
                       max-backoff: 30ms 
                       factor: 2
                     timeout: 400ms #test retry
+                - name: CircuitBreaker
+                  args:
+                    name: delivery-tracking-route-circuit-breaker 
+                    statusCodes: 
+                      - 500
+                      - 502
+                      - 504
 
             # Route for Courier Management
             - id: courier-management-route
@@ -56,6 +63,21 @@ spring:
               filters:
                 - RewritePath=/public/couriers/?(?<segment>.*), /api/v1/couriers/$\{segment}
                 - RemoveJsonAttributesResponseBody=pendingDeliveries,pendingDeliveriesQuantity,phone,true
+                
+resilience4j:
+  circuitbreaker:
+    configs:
+      default: 
+        sliding-window-type: COUNT_BASED
+        sliding-window-size: 10
+        minimum-number-of-calls: 5
+        failure-rate-threshold: 50
+        permitted-number-of-calls-in-half-open-state: 3
+        wait-duration-in-open-state: 10000
+    instances:
+      delivery-tracking-route-circuit-breaker:
+        base-config: default
+        wait-duration-in-open-state: 5000
 
 eureka:
   client:
