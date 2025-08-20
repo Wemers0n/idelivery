@@ -1,5 +1,6 @@
 package com.example.delivery.tracking.application.controller;
 
+import java.util.Random;
 import java.util.UUID;
 
 import org.springframework.data.domain.Pageable;
@@ -25,6 +26,7 @@ import com.example.delivery.tracking.domain.service.DeliveryPreparationService;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
 
 @RestController
 @RequestMapping("/api/v1/deliveries")
@@ -47,7 +49,10 @@ public class DeliveryController {
     }
 
     @GetMapping
+    @SneakyThrows
     public PagedModel<Delivery> findAll(@PageableDefault Pageable pageable){
+        int millis = new Random().nextInt(400);
+        Thread.sleep(millis);
         return new PagedModel<>(deliveryRepository.findAll(pageable));
     }
 
