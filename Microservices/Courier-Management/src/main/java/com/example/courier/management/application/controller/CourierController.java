@@ -1,6 +1,7 @@
 package com.example.courier.management.application.controller;
 
 import java.math.BigDecimal;
+import java.util.Random;
 import java.util.UUID;
 
 import org.springframework.data.domain.Pageable;
@@ -27,6 +28,7 @@ import com.example.courier.management.domain.service.CourierRegistrationService;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
 
 @RestController
 @RequestMapping("/api/v1/couriers")
@@ -59,7 +61,15 @@ public class CourierController {
     }
 
     @PostMapping("/payout-calculation")
+    @SneakyThrows
     public CourierPayoutResultModel calculate(@RequestBody CourierPayoutCalculationInput input){
+
+        if(Math.random() < 0.5){
+            throw new RuntimeException();
+        }
+
+        int millis = new Random().nextInt(250);
+        Thread.sleep(millis);
 
         BigDecimal payoutFee = courierPayoutService.calculate(input.getDistanceInKm());
         return new CourierPayoutResultModel(payoutFee);
