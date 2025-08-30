@@ -1,7 +1,4 @@
-
 # iDelivery
-
-O projeto iDelivery tem como objetivo aplicar e aprofundar os conceitos e práticas do Domain-Driven Design (DDD) em um cenário realista de sistema de entregas. A iniciativa busca estruturar um modelo de domínio rico e alinhado às necessidades do negócio, utilizando boas práticas de design de software.
 
 Iniciei este projeto pensando em um ambiente de testes e aprendizado, no qual novas funcionalidades, padrões arquiteturais e estratégias de modelagem serão incorporados gradualmente, acompanhando a evolução do sistema.
 
@@ -113,7 +110,8 @@ Utilize o comando: `docker-compose up -d` para iniciar os conteiners
 `POST localhost:9999/api/v1/couriers`
 ``` json
 {
-    "courierId": "UUID-Courier"
+    "name": "Maria Entregadora",
+	"phone": "11987654321"
 }
 ```
 #### Retorno
